@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <title>CV Leandro Fernández García</title>
-
     <!-- Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,10 +20,12 @@
     <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
     <!-- Theme CSS -->
     <link id="theme-style" rel="stylesheet" href="assets/css/orbit-3.css">
+    <script src="html2pdf.bundle.min.js"></script>
+
 </head>
 
 <body>
-    <div class="wrapper mt-lg-5">
+    <div class="wrapper mt-lg-5" id="CV">
         <div class="sidebar-wrapper">
             <div class="profile-container">
                 <img class="profile" src="assets/images/profile.png" alt="" />
@@ -222,11 +223,47 @@
 
     <footer class="footer">
         <div class="text-center">
+            <button id="btnCrearPdf">Click aquí</button>
             <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
             <small class="copyright">Designed with <i class="fa-solid fa-heart"></i>
         </div><!--//container-->
     </footer><!--//footer-->
-
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Escuchamos el click del botón
+            boton = document.querySelector("#btnCrearPdf");
+            
+            boton.addEventListener("click", () => {
+               
+                elementoParaConvertir = document.body; // <-- Aquí puedes elegir cualquier elemento del DOM
+                html2pdf()
+                    .set({
+                        margin: 1,
+                        filename: 'documento.pdf',
+                        image: {
+                            type: 'jpeg',
+                            quality: 0.98
+                        },
+                        html2canvas: {
+                            scale: 3,
+                            letterRendering: true,
+                        },
+                        jsPDF: {
+                            unit: "in",
+                            format: "a3",
+                            orientation: 'portrait' // landscape o portrait
+                        }
+                    })
+                    .from(elementoParaConvertir)
+                    .save()
+                    .catch(err => console.log(err))
+                    .finally(() => {
+                        console.log("xxx");
+                    });
+            });
+        });
+    </script>
+    <script src="html2pdf.bundle.min.js"></script>
 </body>
 
 </html>
